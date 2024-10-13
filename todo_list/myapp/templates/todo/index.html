@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        li {
+            background-color: #fff;
+            border-radius: 8px;
+            margin: 10px 0;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        li a:hover {
+            background-color: #f0f0f0;
+        }
+
+        li span {
+            font-style: italic;
+            color: #888;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #28a745;
+        }
+
+        .todo-title {
+            flex: 1;
+            font-size: 1.2rem;
+        }
+
+        a.add-todo {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        a.add-todo:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <ul>
+        {% for todo in todos %}
+        <li>
+            <div class="todo-title">
+                {{ todo.title }} - <span>{{ todo.description }}</span>
+                {% if todo.completed %}
+                <span class="completed">(Completed)</span>
+                {% endif %}
+            </div>
+            <div>
+                {% if not todo.completed %}
+                <a href="{% url 'complete_todo' todo.id %}">Mark as Completed</a>
+                {% endif %}
+                <a href="{% url 'delete_todo' todo.id %}">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_todo' %}" class="add-todo">Add New To-Do</a>
+</body>
+</html>
